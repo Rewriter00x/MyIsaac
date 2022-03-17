@@ -15,6 +15,11 @@ AMyPaperCharacter::AMyPaperCharacter()
 
 	HeadSprite->SetupAttachment(GetCapsuleComponent());
 	BodySprite->SetupAttachment(GetCapsuleComponent());
+
+	BodySprite->SetRelativeLocation(FVector(0.0f, -1.0f, -15.0f));
+	
+	HeadSprite->Stop();
+	BodySprite->Stop();
 }
 
 
