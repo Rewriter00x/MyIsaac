@@ -61,10 +61,7 @@ void AMyPlayableCharacter::UpdateAnimations()
 	if (XAxis != 0.0f)
 	{
 		BodySprite->SetFlipbook(BodyRightFlipbook);
-		if (XAxis < 0.0f)
-			BodySprite->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
-		else
-			BodySprite->SetRelativeRotation(FRotator(0.0f));
+		BodySprite->SetRelativeRotation(XAxis < 0.0f ? FRotator(0.0f, 180.0f, 0.0f) : FRotator(0.0f));
 		if (!BodySprite->IsPlaying())
 			BodySprite->Play();
 	}
