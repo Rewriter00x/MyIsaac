@@ -28,5 +28,12 @@ protected:
     
 public:
     AMyPlayableCharacter();
+
+private:
+	void MoveX(float AxisValue);
+	void MoveY(float AxisValue);
+
+public:
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	
 };
