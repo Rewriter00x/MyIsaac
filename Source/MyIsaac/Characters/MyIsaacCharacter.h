@@ -13,5 +13,8 @@ UCLASS()
 class MYISAAC_API AMyIsaacCharacter : public AMyPlayableCharacter
 {
 	GENERATED_BODY()
+
+public:
+	AMyIsaacCharacter();
 	
 };
