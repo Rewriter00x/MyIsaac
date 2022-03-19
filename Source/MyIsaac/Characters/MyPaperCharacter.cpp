@@ -14,12 +14,19 @@ AMyPaperCharacter::AMyPaperCharacter()
 	BodySprite = CreateDefaultSubobject<UPaperFlipbookComponent>(BodySpriteComponentName);
 
 	HeadSprite->SetupAttachment(GetCapsuleComponent());
-	BodySprite->SetupAttachment(GetCapsuleComponent());
+	BodySprite->SetupAttachment(HeadSprite);
+
+	HeadSprite->SetWorldLocation(FVector(0.0f, -3.0f, 0.0f));
+	HeadSprite->SetUsingAbsoluteRotation(true);
+	HeadSprite->SetWorldRotation(FRotator(0.0f,0.0f,-90.0f));
 
 	BodySprite->SetRelativeLocation(FVector(0.0f, -1.0f, -15.0f));
 	
 	HeadSprite->Stop();
 	BodySprite->Stop();
+
+	GetCapsuleComponent()->SetCapsuleRadius(17.0f);
+	GetCapsuleComponent()->SetCapsuleHalfHeight(17.0f);
 }
 
 
