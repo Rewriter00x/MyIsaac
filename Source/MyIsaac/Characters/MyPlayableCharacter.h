@@ -18,6 +18,9 @@ class MYISAAC_API AMyPlayableCharacter : public AMyPaperCharacter
 
 	static FName SpringArmComponentName;
 	static FName CameraComponentName;
+	
+	float XAxis;
+	float YAxis;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -25,6 +28,24 @@ protected:
     
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     UCameraComponent* Camera;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	UPaperFlipbook* HeadDownFlipbook;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+    UPaperFlipbook* HeadLeftFlipbook;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	UPaperFlipbook* HeadRightFlipbook;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	UPaperFlipbook* HeadUpFlipbook;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	UPaperFlipbook* BodyRightFlipbook;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	UPaperFlipbook* BodyUpFlipbook;
     
 public:
     AMyPlayableCharacter();
@@ -32,8 +53,10 @@ public:
 private:
 	void MoveX(float AxisValue);
 	void MoveY(float AxisValue);
+	void SetStandFlipbook();
+	void UpdateAnimations();
 
 public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-	
+	virtual void Tick(float DeltaSeconds) override;
 };
