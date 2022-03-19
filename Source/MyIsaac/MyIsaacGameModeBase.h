@@ -13,5 +13,8 @@ UCLASS()
 class MYISAAC_API AMyIsaacGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	AMyIsaacGameModeBase();
 	
 };
