@@ -34,11 +34,77 @@ void AMyPlayableCharacter::MoveY(float AxisValue)
 	YAxis = AxisValue;
 }
 
+void AMyPlayableCharacter::SetHeadShootingFlipbook(UPaperFlipbook* NewFlipbook)
+{
+	HeadSprite->SetFlipbook(NewFlipbook);
+	HeadSprite->Play();
+}
+
+void AMyPlayableCharacter::CheckNotShooting()
+{
+	if (!Shooting)
+	{
+		HeadSprite->SetFlipbook(HeadDownFlipbook);
+		HeadSprite->SetPlaybackPosition(0.0f, false);
+		HeadSprite->Stop();
+	}
+}
+
+void AMyPlayableCharacter::ShootRight()
+{
+	Shooting++;
+	SetHeadShootingFlipbook(HeadRightFlipbook);
+}
+
+void AMyPlayableCharacter::StopShootingRight()
+{
+	Shooting--;
+	CheckNotShooting();
+}
+
+void AMyPlayableCharacter::ShootLeft()
+{
+	Shooting++;
+	SetHeadShootingFlipbook(HeadLeftFlipbook);
+}
+
+void AMyPlayableCharacter::StopShootingLeft()
+{
+	Shooting--;
+	CheckNotShooting();
+}
+
+void AMyPlayableCharacter::ShootUp()
+{
+	Shooting++;
+	SetHeadShootingFlipbook(HeadUpFlipbook);
+}
+
+void AMyPlayableCharacter::StopShootingUp()
+{
+	Shooting--;
+	CheckNotShooting();
+}
+
+void AMyPlayableCharacter::ShootDown()
+{
+	Shooting++;
+	SetHeadShootingFlipbook(HeadDownFlipbook);
+}
+
+void AMyPlayableCharacter::StopShootingDown()
+{
+	Shooting--;
+	CheckNotShooting();
+}
+
 void AMyPlayableCharacter::SetStandFlipbook()
 {
 	BodySprite->SetFlipbook(BodyUpFlipbook);
 	BodySprite->SetPlaybackPosition(0.0f, false);
 	BodySprite->Stop();
+	if (!Shooting)
+		HeadSprite->SetFlipbook(HeadDownFlipbook);
 }
 
 void AMyPlayableCharacter::UpdateAnimations()
@@ -53,6 +119,8 @@ void AMyPlayableCharacter::UpdateAnimations()
 	if (YAxis != 0.0f)
 	{
 		BodySprite->SetFlipbook(BodyUpFlipbook);
+		if (!Shooting)
+			HeadSprite->SetFlipbook(YAxis < 0.0f ? HeadDownFlipbook : HeadUpFlipbook);
 		if (!BodySprite->IsPlaying())
 			BodySprite->Play();
 		return;
@@ -62,6 +130,8 @@ void AMyPlayableCharacter::UpdateAnimations()
 	{
 		BodySprite->SetFlipbook(BodyRightFlipbook);
 		BodySprite->SetRelativeRotation(XAxis < 0.0f ? FRotator(0.0f, 180.0f, 0.0f) : FRotator(0.0f));
+		if (!Shooting)
+			HeadSprite->SetFlipbook(XAxis < 0.0f ? HeadLeftFlipbook : HeadRightFlipbook);
 		if (!BodySprite->IsPlaying())
 			BodySprite->Play();
 	}
@@ -73,6 +143,15 @@ void AMyPlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AMyPlayableCharacter::MoveX);
 	PlayerInputComponent->BindAxis(TEXT("MoveUp"), this, &AMyPlayableCharacter::MoveY);
+
+	PlayerInputComponent->BindAction(TEXT("ShootRight"), IE_Pressed, this, &AMyPlayableCharacter::ShootRight);
+	PlayerInputComponent->BindAction(TEXT("ShootRight"), IE_Released, this, &AMyPlayableCharacter::StopShootingRight);
+	PlayerInputComponent->BindAction(TEXT("ShootLeft"), IE_Pressed, this, &AMyPlayableCharacter::ShootLeft);
+	PlayerInputComponent->BindAction(TEXT("ShootLeft"), IE_Released, this, &AMyPlayableCharacter::StopShootingLeft);
+	PlayerInputComponent->BindAction(TEXT("ShootUp"), IE_Pressed, this, &AMyPlayableCharacter::ShootUp);
+	PlayerInputComponent->BindAction(TEXT("ShootUp"), IE_Released, this, &AMyPlayableCharacter::StopShootingUp);
+	PlayerInputComponent->BindAction(TEXT("ShootDown"), IE_Pressed, this, &AMyPlayableCharacter::ShootDown);
+	PlayerInputComponent->BindAction(TEXT("ShootDown"), IE_Released, this, &AMyPlayableCharacter::StopShootingDown);
 }
 
 void AMyPlayableCharacter::Tick(float DeltaSeconds)

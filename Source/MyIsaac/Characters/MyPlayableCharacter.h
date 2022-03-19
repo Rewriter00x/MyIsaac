@@ -21,6 +21,7 @@ class MYISAAC_API AMyPlayableCharacter : public AMyPaperCharacter
 	
 	float XAxis;
 	float YAxis;
+	int32 Shooting = 0;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -53,6 +54,16 @@ public:
 private:
 	void MoveX(float AxisValue);
 	void MoveY(float AxisValue);
+	void SetHeadShootingFlipbook(UPaperFlipbook* NewFlipbook);
+	void CheckNotShooting();
+	void ShootRight();
+	void StopShootingRight();
+	void ShootLeft();
+	void StopShootingLeft();
+	void ShootUp();
+	void StopShootingUp();
+	void ShootDown();
+	void StopShootingDown();
 	void SetStandFlipbook();
 	void UpdateAnimations();
 
