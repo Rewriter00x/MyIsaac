@@ -3,3 +3,11 @@
 
 #include "MyPlayerHUD.h"
 
+#include "Components/TextBlock.h"
+
+void UMyPlayerHUD::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	TextBox->SetText(FText::FromString("HELLO WORLD"));
+}

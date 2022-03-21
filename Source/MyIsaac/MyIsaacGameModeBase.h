@@ -14,7 +14,16 @@ class MYISAAC_API AMyIsaacGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TSubclassOf<UUserWidget> WidgetClass;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UMyPlayerHUD* PlayerHUD;
+
 public:
 	AMyIsaacGameModeBase();
+
+	virtual void BeginPlay() override;;
 	
 };

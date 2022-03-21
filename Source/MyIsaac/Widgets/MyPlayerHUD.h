@@ -13,5 +13,11 @@ UCLASS()
 class MYISAAC_API UMyPlayerHUD : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UTextBlock* TextBox;
+
+protected:
+	virtual void NativeConstruct() override;
 };
