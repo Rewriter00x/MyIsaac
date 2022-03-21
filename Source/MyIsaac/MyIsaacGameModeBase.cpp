@@ -23,13 +23,6 @@ AMyIsaacGameModeBase::AMyIsaacGameModeBase()
 	ConstructorHelpers::FClassFinder<UUserWidget> BP_MyPlayerWidget(TEXT("/Game/Blueprints/Widgets/BP_MyPlayerHUD"));
 	if (BP_MyIsaacCharacter.Class != NULL)
 		WidgetClass = BP_MyPlayerWidget.Class;
-
-	
-}
-
-void AMyIsaacGameModeBase::BeginPlay()
-{
-	Super::BeginPlay();
 	
 	if (IsValid(WidgetClass))
 	{
@@ -37,4 +30,5 @@ void AMyIsaacGameModeBase::BeginPlay()
 		if(PlayerHUD)
 			PlayerHUD->AddToViewport();
 	}
+	
 }

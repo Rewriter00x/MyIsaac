@@ -23,7 +23,5 @@ protected:
 
 public:
 	AMyIsaacGameModeBase();
-
-	virtual void BeginPlay() override;;
 	
 };
