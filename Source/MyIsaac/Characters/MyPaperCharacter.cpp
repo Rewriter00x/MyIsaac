@@ -25,6 +25,8 @@ AMyPaperCharacter::AMyPaperCharacter()
 	HeadSprite->Stop();
 	BodySprite->Stop();
 
+	HeadSprite->SetLooping(false);
+
 	GetCapsuleComponent()->SetCapsuleRadius(17.0f);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(17.0f);
 }

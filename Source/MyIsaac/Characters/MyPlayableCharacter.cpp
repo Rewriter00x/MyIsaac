@@ -22,6 +22,14 @@ AMyPlayableCharacter::AMyPlayableCharacter()
     Camera->SetProjectionMode(ECameraProjectionMode::Orthographic);
 }
 
+void AMyPlayableCharacter::OnHeadFlipbookPlaybackCompleted()
+{
+	bShootingCycle = false;
+	HeadSprite->SetPlaybackPosition(0.0f, false);
+	if (Shooting)
+		HeadSprite->Play();
+}
+
 void AMyPlayableCharacter::MoveX(float AxisValue)
 {
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue);
@@ -34,20 +42,27 @@ void AMyPlayableCharacter::MoveY(float AxisValue)
 	YAxis = AxisValue;
 }
 
+void AMyPlayableCharacter::SetHeadFlipbookWithPlaybackPosition(UPaperFlipbook* NewFlipbook)
+{
+	const float Position = HeadSprite->GetPlaybackPosition();
+	HeadSprite->SetFlipbook(NewFlipbook);
+	HeadSprite->SetPlaybackPosition(Position, false);
+}
+
 void AMyPlayableCharacter::SetHeadShootingFlipbook(UPaperFlipbook* NewFlipbook)
 {
-	HeadSprite->SetFlipbook(NewFlipbook);
-	HeadSprite->Play();
+	SetHeadFlipbookWithPlaybackPosition(NewFlipbook);
+	if (!bShootingCycle)
+	{
+		HeadSprite->Play();
+		bShootingCycle = true;
+	}
 }
 
 void AMyPlayableCharacter::CheckNotShooting()
 {
 	if (!Shooting)
-	{
-		HeadSprite->SetFlipbook(HeadDownFlipbook);
-		HeadSprite->SetPlaybackPosition(0.0f, false);
-		HeadSprite->Stop();
-	}
+		SetHeadFlipbookWithPlaybackPosition(HeadDownFlipbook);
 }
 
 void AMyPlayableCharacter::ShootRight()
@@ -135,6 +150,13 @@ void AMyPlayableCharacter::UpdateAnimations()
 		if (!BodySprite->IsPlaying())
 			BodySprite->Play();
 	}
+}
+
+void AMyPlayableCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+    HeadSprite->OnFinishedPlaying.AddDynamic(this, &AMyPlayableCharacter::OnHeadFlipbookPlaybackCompleted);
 }
 
 void AMyPlayableCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

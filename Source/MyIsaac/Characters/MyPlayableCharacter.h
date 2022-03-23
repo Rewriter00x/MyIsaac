@@ -22,6 +22,7 @@ class MYISAAC_API AMyPlayableCharacter : public AMyPaperCharacter
 	float XAxis;
 	float YAxis;
 	int32 Shooting = 0;
+	bool bShootingCycle = false;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -52,8 +53,12 @@ public:
     AMyPlayableCharacter();
 
 private:
+	UFUNCTION()
+	void OnHeadFlipbookPlaybackCompleted();
+	
 	void MoveX(float AxisValue);
 	void MoveY(float AxisValue);
+	void SetHeadFlipbookWithPlaybackPosition(UPaperFlipbook* NewFlipbook);
 	void SetHeadShootingFlipbook(UPaperFlipbook* NewFlipbook);
 	void CheckNotShooting();
 	void ShootRight();
@@ -68,6 +73,7 @@ private:
 	void UpdateAnimations();
 
 public:
+	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void Tick(float DeltaSeconds) override;
 };
